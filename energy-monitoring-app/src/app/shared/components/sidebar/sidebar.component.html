@@ -1,0 +1,26 @@
+<!-- src/app/shared/components/sidebar/sidebar.component.html -->
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" [opened]="isOpen" [ngClass]="{ 'sidenav-closed': !isOpen }" [@slideInOut]="isOpen ? 'in' : 'out'">
+      <mat-nav-list>
+        <a mat-list-item (click)="toggleSidebar()" class="toggle-button">
+          <mat-icon>{{ isOpen ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+          <span *ngIf="isOpen">Toggle Sidebar</span>
+        </a>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active" *ngIf="isEnterprise">
+          <mat-icon>home</mat-icon>
+          <span *ngIf="isOpen">Accueil</span>
+        </a>
+        <a mat-list-item routerLink="/dashboard/monitoring" routerLinkActive="active" *ngIf="isEnterprise">
+          <mat-icon>monitor</mat-icon>
+          <span *ngIf="isOpen">Monitoring</span>
+        </a>
+        <a mat-list-item routerLink="/iot" routerLinkActive="active" *ngIf="isEnterprise">
+          <mat-icon>devices</mat-icon>
+          <span *ngIf="isOpen">IoT</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

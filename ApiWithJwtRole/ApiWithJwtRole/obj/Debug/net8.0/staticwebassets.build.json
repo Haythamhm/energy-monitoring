@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "kte5XBMdDL6d/+5mylLZF8Fm3TIksFFxwdWM2GTGE3k=",
+  "Source": "ApiWithJwtRole",
+  "BasePath": "_content/ApiWithJwtRole",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

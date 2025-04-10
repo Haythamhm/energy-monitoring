@@ -1,0 +1,57 @@
+.dashboard-container {
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.dashboard-content {
+  padding: 2rem;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  margin-bottom: 2rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.welcome-card .mat-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.data-table {
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table-header {
+  background-color: var(--background);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.mat-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}

@@ -1,0 +1,9 @@
+<!-- src/app/shared/components/header/header.component.html -->
+<mat-toolbar color="primary">
+    <span>Energy Monitoring App</span>
+    <span class="spacer"></span>
+    <span *ngIf="userName">Welcome, {{ userName }}</span>
+    <button mat-icon-button (click)="logout()" class="ml-2">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
