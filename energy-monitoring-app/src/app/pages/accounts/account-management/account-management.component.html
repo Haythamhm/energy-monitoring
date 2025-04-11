@@ -1,0 +1,80 @@
+<div class="dashboard-container">
+    <mat-card class="admin-card">
+      <mat-card-header>
+        <mat-card-title>Gestion des comptes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="button-group">
+          <button mat-raised-button color="primary" routerLink="/register-enterprise">
+            <mat-icon>add_business</mat-icon>
+            Nouveau compte entreprise
+          </button>
+          <button *ngIf="isSuperAdmin" mat-raised-button color="accent" routerLink="/register-admin">
+            <mat-icon>person_add</mat-icon>
+            Nouveau compte admin
+          </button>
+        </div>
+
+        <table mat-table [dataSource]="users" class="mat-elevation-z8">
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef>Nom d'utilisateur</th>
+            <td mat-cell *matCellDef="let user">{{ user.userName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef>Nom complet</th>
+            <td mat-cell *matCellDef="let user">{{ user.fullName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="enterpriseName">
+            <th mat-header-cell *matHeaderCellDef>Entreprise</th>
+            <td mat-cell *matCellDef="let user">{{ user.enterpriseName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="numberOfEmployees">
+            <th mat-header-cell *matHeaderCellDef>Employés</th>
+            <td mat-cell *matCellDef="let user">{{ user.numberOfEmployees }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="contractDate">
+            <th mat-header-cell *matHeaderCellDef>Date contrat</th>
+            <td mat-cell *matCellDef="let user">{{ user.contractDate }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Catégorie</th>
+            <td mat-cell *matCellDef="let user">{{ user.category }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let user">
+              <button mat-icon-button color="primary" (click)="openEditDialog(user)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteUser(user.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <!-- Add loading indicator -->
+      <div class="loading-shade" *ngIf="isLoading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <!-- Add empty state -->
+      <div class="no-data" *ngIf="users.length === 0 && !isLoading">
+        <mat-icon>folder_off</mat-icon>
+        <p>Aucun utilisateur trouvé</p>
+      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

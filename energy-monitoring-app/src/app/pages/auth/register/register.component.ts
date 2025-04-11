@@ -1,5 +1,5 @@
 // src/app/pages/auth/register/register.component.ts
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService, RegisterAdminModel, RegisterEnterpriseModel } from '../../../core/services/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -42,7 +42,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  isAdmin: boolean = false;
+  isAdmin: boolean = false; // Now includes both Admin and SuperAdmin
   roles: string[] = [];
 
   constructor(
@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.roles = this.authService.getRoles();
-    this.isAdmin = this.roles.includes('Admin');
+    this.isAdmin = this.roles.includes('Admin') || this.roles.includes('SuperAdmin'); // Allow both roles
 
     if (this.isAdmin) {
       this.registerForm.get('enterpriseName')?.setValidators(Validators.required);
@@ -131,4 +131,4 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
-}
+}*/

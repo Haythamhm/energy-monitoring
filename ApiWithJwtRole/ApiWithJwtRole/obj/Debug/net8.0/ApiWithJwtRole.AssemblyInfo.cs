@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiWithJwtRole")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82916ac772362daa739f9b31eec8cab349199c99")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9b06844ce2a46e383995c5437ec870637329cf86")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiWithJwtRole")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiWithJwtRole")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

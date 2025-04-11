@@ -1,0 +1,117 @@
+/* src/app/pages/auth/register-enterprise/register-enterprise.component.css */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #edeff1 0%, #e0dfe6 100%);
+    padding: 20px;
+  }
+  
+  .register-card {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .register-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .header {
+    background: linear-gradient(90deg, #2f6386 0%, #4b3f73 100%);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .title-icon {
+    margin-right: 10px;
+    font-size: 28px;
+  }
+  
+  .subtitle {
+    color: #e0e0e0;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  mat-form-field {
+    transition: all 0.3s ease;
+  }
+  
+  mat-form-field:hover .input-icon {
+    color: #2b5876;
+    transform: scale(1.1);
+  }
+  
+  .input-icon {
+    color: #999;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .submit-button, .cancel-button {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-button {
+    background: linear-gradient(90deg, #2b5876 0%, #4e4376 100%);
+    color: #ffffff;
+  }
+  
+  .submit-button:hover:not([disabled]) {
+    background: linear-gradient(90deg, #4e4376 0%, #2b5876 100%);
+    transform: scale(1.05);
+  }
+  
+  .submit-button[disabled] {
+    background: #cccccc;
+    color: #666666;
+  }
+  
+  .cancel-button {
+    border-color: #e57373;
+    color: #e57373;
+  }
+  
+  .cancel-button:hover {
+    background: #e57373;
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+  
+  mat-icon {
+    margin-right: 8px;
+  }

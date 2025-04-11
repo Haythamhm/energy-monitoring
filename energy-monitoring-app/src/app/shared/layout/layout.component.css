@@ -1,0 +1,23 @@
+/* layout.component.css */
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  app-sidebar {
+    position: fixed;
+    top: 64px; /* taille approximative du header */
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    z-index: 10;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 64px;
+    overflow: auto;
+  }
+  

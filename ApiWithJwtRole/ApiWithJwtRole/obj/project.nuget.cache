@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8vwd0sg4SfE=",
+  "dgSpecHash": "cB8V8pWbsbo=",
   "success": true,
-  "projectFilePath": "D:\\dotnet-project\\BackendApi\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Desktop\\project-IoT\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

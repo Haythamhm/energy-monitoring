@@ -1,9 +1,9 @@
-// src/app/app.config.ts
+// src/app/app.config.ts (updated)
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './core/services/interceptors/auth.interceptor';
+import { authInterceptor } from '@app/core/services/interceptors/auth.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,10 +18,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    ThemeService,
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimations(),
     importProvidersFrom([

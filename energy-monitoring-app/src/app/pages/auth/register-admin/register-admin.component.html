@@ -1,0 +1,82 @@
+<!-- src/app/pages/auth/register-admin/register-admin.component.html -->
+<div class="register-container" [@fadeIn]>
+    <mat-card class="register-card" [@cardAnimation]>
+      <mat-card-header class="header">
+        <mat-card-title class="title">
+          <mat-icon class="title-icon">admin_panel_settings</mat-icon>
+          Register Admin
+        </mat-card-title>
+        <mat-card-subtitle class="subtitle">Create a new admin user</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="content">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="userName" required>
+            <mat-icon matSuffix class="input-icon">person</mat-icon>
+            <mat-error *ngIf="registerForm.get('userName')?.hasError('required')">
+              Username is required
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" required>
+            <mat-icon matSuffix class="input-icon">email</mat-icon>
+            <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+              Invalid email format
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="fullName" required>
+            <mat-icon matSuffix class="input-icon">badge</mat-icon>
+            <mat-error *ngIf="registerForm.get('fullName')?.hasError('required')">
+              Full Name is required
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="full-width" floatLabel="always">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-icon matSuffix class="input-icon">lock</mat-icon>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+              Password must be at least 8 characters
+            </mat-error>
+          </mat-form-field>
+  
+          <div class="button-container">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="submit-button"
+              [disabled]="registerForm.invalid"
+              [@buttonAnimation]
+            >
+              <mat-icon>person_add</mat-icon>
+              Register Admin
+            </button>
+            <button
+              mat-stroked-button
+              color="warn"
+              type="button"
+              class="cancel-button"
+              (click)="onCancel()"
+              [@buttonAnimation]
+            >
+              <mat-icon>cancel</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>

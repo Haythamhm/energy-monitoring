@@ -3,3 +3,4 @@ backend/obj/
 *.user
 *.suo
 *.log
+.qodo

@@ -1,26 +1,51 @@
 <!-- src/app/shared/components/sidebar/sidebar.component.html -->
-<mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" [opened]="isOpen" [ngClass]="{ 'sidenav-closed': !isOpen }" [@slideInOut]="isOpen ? 'in' : 'out'">
-      <mat-nav-list>
-        <a mat-list-item (click)="toggleSidebar()" class="toggle-button">
-          <mat-icon>{{ isOpen ? 'chevron_left' : 'chevron_right' }}</mat-icon>
-          <span *ngIf="isOpen">Toggle Sidebar</span>
-        </a>
-        <a mat-list-item routerLink="/dashboard" routerLinkActive="active" *ngIf="isEnterprise">
-          <mat-icon>home</mat-icon>
-          <span *ngIf="isOpen">Accueil</span>
-        </a>
-        <a mat-list-item routerLink="/dashboard/monitoring" routerLinkActive="active" *ngIf="isEnterprise">
-          <mat-icon>monitor</mat-icon>
-          <span *ngIf="isOpen">Monitoring</span>
-        </a>
-        <a mat-list-item routerLink="/iot" routerLinkActive="active" *ngIf="isEnterprise">
-          <mat-icon>devices</mat-icon>
-          <span *ngIf="isOpen">IoT</span>
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <ng-content></ng-content>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+<div class="sidebar" [ngClass]="{'collapsed': isCollapsed}" [@sidebarAnimation]="isCollapsed ? 'collapsed' : 'expanded'">
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <!-- Placeholder for logo (add your logo here) -->
+      <div class="logo-placeholder"></div>
+      <span class="title" *ngIf="!isCollapsed">ENERGY MAG</span>
+    </div>
+    <mat-icon class="toggle-icon" (click)="toggleSidebar()" [@toggleIconAnimation]="isCollapsed ? 'collapsed' : 'expanded'">
+      {{ isCollapsed ? 'chevron_right' : 'chevron_left' }}
+    </mat-icon>
+  </div>
+  <div class="sidebar-content">
+    <a class="sidebar-item" routerLink="/dashboard" routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      <span *ngIf="!isCollapsed">Accueil</span>
+    </a>
+    <a class="sidebar-item" routerLink="/monitoring" routerLinkActive="active">
+      <mat-icon>monitor</mat-icon>
+      <span *ngIf="!isCollapsed">Monitoring</span>
+    </a>
+    <a class="sidebar-item" routerLink="/network-monitoring" routerLinkActive="active">
+      <mat-icon>network_check</mat-icon>
+      <span *ngIf="!isCollapsed">Network Monitoring</span>
+    </a>
+    <a class="sidebar-item" routerLink="/architecture" routerLinkActive="active">
+      <mat-icon>apartment</mat-icon>
+      <span *ngIf="!isCollapsed">Architecture</span>
+    </a>
+    <a class="sidebar-item" routerLink="/iot" routerLinkActive="active">
+      <mat-icon>devices</mat-icon>
+      <span *ngIf="!isCollapsed">IoT</span>
+    </a>
+    <a class="sidebar-item" routerLink="/projects" routerLinkActive="active">
+      <mat-icon>folder</mat-icon>
+      <span *ngIf="!isCollapsed">Projects</span>
+    </a>
+    <a class="sidebar-item" routerLink="/comparator-ia" routerLinkActive="active">
+      <mat-icon>compare</mat-icon>
+      <span *ngIf="!isCollapsed">Comparator IA</span>
+    </a>
+    <a class="sidebar-item" routerLink="/generator-regles-ia" routerLinkActive="active">
+      <mat-icon>rule</mat-icon>
+      <span *ngIf="!isCollapsed">Générateur de Règles IA</span>
+    </a>
+    <a class="sidebar-item" routerLink="/accounts" routerLinkActive="active" *ngIf="isAdmin || isSuperAdmin">
+      <mat-icon>people</mat-icon>
+      <span *ngIf="!isCollapsed">Accounts</span>
+    </a>
+  </div>
+</div>

@@ -1,29 +1,185 @@
-/* src/app/shared/components/header/header.component.css */
-mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  button {
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  button:hover {
-    transform: scale(1.1);
-  }
+.header {
+  background-color: var(--sidebar-background);
+  padding: 0.5rem 1rem; /* Reduced padding */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  height: 50px; /* Reduced height from 64px to 50px */
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
 
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.theme-toggle,
+.notification,
+.profile {
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle:hover,
+.notification:hover,
+.profile:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.theme-toggle mat-icon,
+.notification mat-icon,
+.profile mat-icon {
+  color: var(--text-color);
+  font-size: 20px; /* Reduced from 24px */
+  transition: color 0.2s ease;
+}
+
+/* Update the notification icon container */
+.notification {
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+/* Update the badge styling */
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ea4335;
+  color: white;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 10px;
+  font-weight: 500;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--sidebar-background);
+  transform: translate(25%, -25%);
+  z-index: 1;
+}
+
+/* Add dark mode support for badge border */
+:host-context(.dark-theme) .badge {
+  border-color: #202124;
+}
+
+.profile {
+  padding: 0.25rem 0.5rem;
+  border-radius: 16px;
+  gap: 0.5rem;
+}
+
+.user-name {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.notification-dropdown,
+.profile-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 280px;
+  margin-top: 0.25rem;
+  overflow: hidden;
+}
+
+.notification-item,
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+  color: #3c4043;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+.notification-item:hover,
+.profile-item:hover {
+  background-color: #f8f9fa;
+  border-left-color: #1a73e8;
+}
+
+.notification-item mat-icon,
+.profile-item mat-icon {
+  color: #5f6368;
+  font-size: 20px;
+}
+
+/* Add arrow indicators for dropdowns */
+.notification-dropdown::before,
+.profile-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+/* Dark mode adjustments */
+:host-context(.dark-theme) .header {
+  background-color: var(--sidebar-background);
+}
+
+
+:host-context(.dark-theme) .theme-toggle mat-icon,
+:host-context(.dark-theme) .notification mat-icon,
+:host-context(.dark-theme) .profile mat-icon,
+:host-context(.dark-theme) .user-name {
+  color: var(--text-color);
+}
+
+:host-context(.dark-theme) .notification-dropdown,
+:host-context(.dark-theme) .profile-dropdown {
+  background-color: #202124;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+:host-context(.dark-theme) .notification-item,
+:host-context(.dark-theme) .profile-item {
+  color: #e8eaed;
+}
+
+:host-context(.dark-theme) .notification-item:hover,
+:host-context(.dark-theme) .profile-item:hover {
+  background-color: #303134;
+}

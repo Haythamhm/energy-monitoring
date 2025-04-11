@@ -1,9 +1,10 @@
-// src/app/core/services/auth.service.ts
+// src/app/core/services/auth.service.ts (updated)
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 export interface LoginResponse {
   token: string;
@@ -41,78 +42,101 @@ export interface EnterpriseUser {
   numberOfEmployees: number;
   contractDate: string;
   category: string;
+  createdByAdminId?: string;
 }
 
 export interface ApiResponse {
   message: string;
 }
 
+export interface ClientStats {
+  activeClients: number;
+  inactiveClients: number;
+  installingClients: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5256/api/Account'; // Your backend URL
+  private apiUrl = 'http://localhost:5256/api/Account';
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
-  // Login
   login(userName: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { userName, password }).pipe(
-      tap(response => this.saveToken(response))
+      tap(response => this.saveToken(response)),
+      catchError(this.handleError)
     );
   }
 
-  // Register Admin (SuperAdmin only)
   registerAdmin(model: RegisterAdminModel): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/register-admin`, model);
+    return this.http.post<ApiResponse>(`${this.apiUrl}/register-admin`, model).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // Register Enterprise (Admin only)
   registerEnterprise(model: RegisterEnterpriseModel): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/register-enterprise`, model);
+    return this.http.post<ApiResponse>(`${this.apiUrl}/register-enterprise`, model).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // Get all Enterprise users (Admin only)
+  getClientStats(): Observable<ClientStats> {
+    return this.http.get<ClientStats>(`${this.apiUrl}/client-stats`);
+  }
+  
+
   getEnterpriseUsers(): Observable<EnterpriseUser[]> {
     return this.http.get<EnterpriseUser[]>(`${this.apiUrl}/enterprises`);
   }
 
-  // Update Enterprise user (Admin only)
   updateEnterpriseUser(userId: string, model: RegisterEnterpriseModel): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/enterprises/${userId}`, model);
+    return this.http.put<ApiResponse>(`${this.apiUrl}/enterprises/${userId}`, model).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // Delete Enterprise user (Admin only)
   deleteEnterpriseUser(userId: string): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.apiUrl}/enterprises/${userId}`);
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/enterprises/${userId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // Store token and user data
   private saveToken(response: LoginResponse): void {
     localStorage.setItem('token', response.token);
     localStorage.setItem('expiration', response.expiration);
     localStorage.setItem('roles', JSON.stringify(response.roles));
     localStorage.setItem('userId', response.userId);
     localStorage.setItem('userName', response.userName);
+    localStorage.setItem('email', response.email);
   }
 
-  // Get token
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // Get roles
   getRoles(): string[] {
     const roles = localStorage.getItem('roles');
     return roles ? JSON.parse(roles) : [];
   }
 
-  // Get userId
   getUserId(): string | null {
     return localStorage.getItem('userId');
   }
 
-  // Check if token is expired
+  getUserName(): string | null {
+    return localStorage.getItem('userName');
+  }
+
+  getEmail(): string | null {
+    return localStorage.getItem('email');
+  }
+
   isTokenExpired(): boolean {
     const expiration = localStorage.getItem('expiration');
     if (!expiration) return true;
@@ -120,21 +144,32 @@ export class AuthService {
     return expirationDate <= new Date();
   }
 
-  // Check if user is logged in
   isLoggedIn(): boolean {
     return !!this.getToken() && !this.isTokenExpired();
   }
 
-  // Logout
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
-  // Show snackbar message
   showMessage(message: string, action: string = 'Close'): void {
     this.snackBar.open(message, action, {
       duration: 3000,
       verticalPosition: 'top'
     });
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An error occurred. Please try again later.';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = error.error?.message || error.error?.title || `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    this.showMessage(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

@@ -85,12 +85,16 @@ namespace ApiWithJwtRole.Controllers
         }
 
         [HttpPost("register-enterprise")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")] // Allow both SuperAdmin and Admin
         public async Task<IActionResult> RegisterEnterprise([FromBody] RegisterEnterpriseModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.UserName);
             if (userExists != null)
                 return BadRequest(new { message = "Enterprise already exists!" });
+
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized(new { message = "User not authenticated" });
 
             var user = new ApplicationUser
             {
@@ -101,7 +105,8 @@ namespace ApiWithJwtRole.Controllers
                 NumberOfEmployees = model.NumberOfEmployees,
                 ContractDate = model.ContractDate,
                 Category = model.Category,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CreatedByAdminId = currentUserId // Set the creator
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -113,7 +118,7 @@ namespace ApiWithJwtRole.Controllers
 
             await _userManager.AddToRoleAsync(user, UserRoles.Enterprise);
 
-            return Ok(new { message = "Enterprise registered successfully!" }); // Return JSON
+            return Ok(new { message = "Enterprise registered successfully!" });
         }
 
         [HttpPost("login")]
@@ -200,11 +205,30 @@ namespace ApiWithJwtRole.Controllers
         }
 
         [HttpGet("enterprises")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> GetEnterprises()
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized(new { message = "User not authenticated" });
+
+            var currentUser = await _userManager.FindByIdAsync(currentUserId);
+            if (currentUser == null)
+                return Unauthorized(new { message = "User not found" });
+
+            var userRoles = await _userManager.GetRolesAsync(currentUser);
+            var isSuperAdmin = userRoles.Contains(UserRoles.SuperAdmin);
+
             var enterprises = await _userManager.GetUsersInRoleAsync(UserRoles.Enterprise);
-            var enterpriseList = enterprises.Select(user => new
+            var filteredEnterprises = enterprises;
+
+            // If the user is not a SuperAdmin, filter enterprises by the Admin who created them
+            if (!isSuperAdmin)
+            {
+                filteredEnterprises = enterprises.Where(e => e.CreatedByAdminId == currentUserId).ToList();
+            }
+
+            var enterpriseList = filteredEnterprises.Select(user => new
             {
                 id = user.Id,
                 userName = user.UserName,
@@ -213,18 +237,35 @@ namespace ApiWithJwtRole.Controllers
                 enterpriseName = user.EnterpriseName,
                 numberOfEmployees = user.NumberOfEmployees,
                 contractDate = user.ContractDate,
-                category = user.Category
+                category = user.Category,
+                createdByAdminId = user.CreatedByAdminId
             }).ToList();
+
             return Ok(enterpriseList);
         }
 
         [HttpPut("enterprises/{userId}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> UpdateEnterprise(string userId, [FromBody] RegisterEnterpriseModel model)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized(new { message = "User not authenticated" });
+
+            var currentUser = await _userManager.FindByIdAsync(currentUserId);
+            if (currentUser == null)
+                return Unauthorized(new { message = "User not found" });
+
+            var userRoles = await _userManager.GetRolesAsync(currentUser);
+            var isSuperAdmin = userRoles.Contains(UserRoles.SuperAdmin);
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null || !(await _userManager.IsInRoleAsync(user, UserRoles.Enterprise)))
                 return NotFound(new { message = "Enterprise user not found" });
+
+            // Check if the current Admin is allowed to update this Enterprise user
+            if (!isSuperAdmin && user.CreatedByAdminId != currentUserId)
+                return Forbid("You can only update enterprises you created");
 
             user.UserName = model.UserName;
             user.Email = model.Email;
@@ -238,22 +279,56 @@ namespace ApiWithJwtRole.Controllers
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors });
 
-            return Ok(new { message = "Enterprise updated successfully!" }); // Return JSON
+            return Ok(new { message = "Enterprise updated successfully!" });
         }
 
         [HttpDelete("enterprises/{userId}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> DeleteEnterprise(string userId)
         {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized(new { message = "User not authenticated" });
+
+            var currentUser = await _userManager.FindByIdAsync(currentUserId);
+            if (currentUser == null)
+                return Unauthorized(new { message = "User not found" });
+
+            var userRoles = await _userManager.GetRolesAsync(currentUser);
+            var isSuperAdmin = userRoles.Contains(UserRoles.SuperAdmin);
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null || !(await _userManager.IsInRoleAsync(user, UserRoles.Enterprise)))
                 return NotFound(new { message = "Enterprise user not found" });
+
+            // Check if the current Admin is allowed to delete this Enterprise user
+            if (!isSuperAdmin && user.CreatedByAdminId != currentUserId)
+                return Forbid("You can only delete enterprises you created");
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors });
 
-            return Ok(new { message = "Enterprise deleted successfully!" }); // Return JSON
+            return Ok(new { message = "Enterprise deleted successfully!" });
         }
+
+        [HttpGet("client-stats")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> GetClientStats()
+        {
+            var users = await _userManager.GetUsersInRoleAsync(UserRoles.Enterprise);
+
+            var active = users.Count(u => u.EmailConfirmed); // ou toute logique "actif"
+            var inactive = users.Count(u => !u.EmailConfirmed); // ou `!u.LockoutEnabled` selon ta logique
+            var installing = users.Count(u => string.IsNullOrEmpty(u.Category)); // exemple : pas encore complètement rempli
+
+            return Ok(new
+            {
+                activeClients = active,
+                inactiveClients = inactive,
+                installingClients = installing
+            });
+        }
+
     }
 }

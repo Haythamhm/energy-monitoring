@@ -1,9 +1,45 @@
-<!-- src/app/shared/components/header/header.component.html -->
-<mat-toolbar color="primary">
-    <span>Energy Monitoring App</span>
-    <span class="spacer"></span>
-    <span *ngIf="userName">Welcome, {{ userName }}</span>
-    <button mat-icon-button (click)="logout()" class="ml-2">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
+<div class="header">
+  <div class="header-right">
+    <div class="actions">
+      <div class="theme-toggle" (click)="toggleTheme()">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </div>
+      
+      <div class="notification" (click)="toggleNotifications()">
+        <mat-icon>notifications</mat-icon>
+        <span class="badge" *ngIf="notifications.length > 0">
+          {{notifications.length}}
+        </span>
+        <div class="notification-dropdown" *ngIf="showNotifications" [@dropdownAnimation]>
+          <div class="notification-item" *ngFor="let notification of notifications">
+            <mat-icon>{{notification.icon}}</mat-icon>
+            <span>{{notification.message}}</span>
+          </div>
+          <div class="notification-item" *ngIf="notifications.length === 0">
+            <mat-icon>notifications_none</mat-icon>
+            <span>No new notifications</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile" (click)="toggleProfileMenu()">
+        <mat-icon>account_circle</mat-icon>
+        <span class="user-name">{{userName}}</span>
+        <div class="profile-dropdown" *ngIf="showProfileMenu" [@dropdownAnimation]>
+          <div class="profile-item">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </div>
+          <div class="profile-item">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </div>
+          <div class="profile-item" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

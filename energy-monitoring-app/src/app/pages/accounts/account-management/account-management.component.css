@@ -1,0 +1,157 @@
+.dashboard-container {
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(47, 96, 169, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 12px 40px rgba(47, 96, 169, 0.15);
+  transform: translateY(-2px);
+}
+
+mat-card-header {
+  background: linear-gradient(135deg, #c2c4c6 0%, #c3d1e6 100%);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mat-card-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+mat-card-content {
+  padding: 1.5rem;
+}
+
+/* Button styles */
+button[mat-raised-button] {
+  margin: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+button[mat-raised-button][color="primary"] {
+  background: linear-gradient(135deg, #2f60a9 0%, #1e4785 100%);
+}
+
+button[mat-raised-button][color="accent"] {
+  background: linear-gradient(135deg, #3f51b5 0%, #2f3c8d 100%);
+}
+
+button[mat-raised-button]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Table styles */
+.mat-table {
+  width: 100%;
+  margin-top: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.mat-header-cell {
+  background: #f8fafc;
+  color: #caced3;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mat-cell {
+  padding: 1rem;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.mat-row {
+  transition: all 0.2s ease;
+}
+
+.mat-row:hover {
+  background-color: rgba(47, 96, 169, 0.05);
+  transform: scale(1.002);
+}
+
+/* Action buttons in table */
+button[mat-icon-button] {
+  transition: all 0.2s ease;
+}
+
+button[mat-icon-button][color="primary"] {
+  color: #2f60a9;
+}
+
+button[mat-icon-button][color="warn"] {
+  color: #dc3545;
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive table */
+@media screen and (max-width: 960px) {
+  .mat-table {
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Empty state */
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+}
+
+/* Loading state */
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}

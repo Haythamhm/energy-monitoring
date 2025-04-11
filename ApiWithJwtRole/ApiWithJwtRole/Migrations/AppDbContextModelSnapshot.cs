@@ -40,6 +40,9 @@ namespace ApiWithJwtRole.Migrations
                     b.Property<DateTime?>("ContractDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CreatedByAdminId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");

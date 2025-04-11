@@ -8078,11 +8078,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\dotnet-project\\BackendApi\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
+      "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\project-IoT\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
       "projectName": "ApiWithJwtRole",
-      "projectPath": "D:\\dotnet-project\\BackendApi\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
+      "projectPath": "C:\\Users\\Lenovo\\Desktop\\project-IoT\\ApiWithJwtRole\\ApiWithJwtRole\\ApiWithJwtRole.csproj",
       "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "D:\\dotnet-project\\BackendApi\\ApiWithJwtRole\\ApiWithJwtRole\\obj\\",
+      "outputPath": "C:\\Users\\Lenovo\\Desktop\\project-IoT\\ApiWithJwtRole\\ApiWithJwtRole\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
